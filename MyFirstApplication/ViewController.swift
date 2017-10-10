@@ -49,6 +49,5 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
             subVC.memoNum = self.memoNum
         }
     }
-    
 }
 

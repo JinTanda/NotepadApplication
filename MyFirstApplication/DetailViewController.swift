@@ -17,7 +17,13 @@ class DetailViewController: UIViewController{
     
     @IBAction func saveButton(_ sender: Any) {
         saves.set(memoText.text, forKey: "myText" + memoNum)
+        self.navigationController?.popViewController(animated: true)
     }
+    
+//    func saveButton(_ sender: Any){
+//        saves.set(memoText.text, forKey: "myText" + memoNum)
+//    }
+    
     override func viewDidLoad() {
         memoText.text = saves.string(forKey: "myText" + memoNum)
         super.viewDidLoad()
