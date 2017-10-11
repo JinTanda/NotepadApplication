@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
 
@@ -14,10 +15,15 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     
     let program = ["Swift", "Ruby", "Java"]
-    
+//    var program:[String] = []
     var memoNum = ""
+//    var dictionary:Dictionary<String,Any> = [:]
+//    var loads = UserDefaults.standard
+//    var memoArray: Array<Any> = []
     
     override func viewDidLoad() {
+//        dictionary = loads.dictionaryRepresentation()
+//        memoArray = Array(dictionary.values)
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
@@ -28,6 +34,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+//        return memoArray.count
         return program.count
     }
     
@@ -39,6 +46,8 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "listCell", for: indexPath)
+//        print(memoArray)
+//        cell.textLabel!.text = memoArray[indexPath.row] as! String
         cell.textLabel!.text = program[indexPath.row]
         return cell
     }
