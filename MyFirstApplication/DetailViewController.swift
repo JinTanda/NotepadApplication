@@ -8,24 +8,41 @@
 
 import Foundation
 import UIKit
+import RealmSwift
+
+class Memo: Object{
+    dynamic var id = -1
+    dynamic var title = ""
+    dynamic var memo = ""
+    
+    override static func primaryKey() -> String?{
+        return "id"
+    }
+}
 
 class DetailViewController: UIViewController{
-    let saves = UserDefaults.standard
-    var memoNum = ""
+    var memoNum = -1
+    let realm = try! Realm()
     
     @IBOutlet weak var titleText: UITextField!
     @IBOutlet weak var memoText: UITextView!
     
     @IBAction func saveButton(_ sender: Any) {
-        saves.set(memoText.text, forKey: "memoText" + memoNum)
-        saves.set(titleText.text, forKey: "titleText" + memoNum)
+        let myMemo = Memo()
+        myMemo.id = memoNum
+        myMemo.title = titleText.text!
+        myMemo.memo = memoText.text!
+        try! realm.write{
+            realm.add(myMemo, update: true)
+        }
         //前画面に戻る
         self.navigationController?.popViewController(animated: true)
     }
     
     override func viewDidLoad() {
-        memoText.text = saves.string(forKey: "memoText" + memoNum)
-        titleText.text = saves.string(forKey: "titleText" + memoNum)
+        let myMemo = realm.object(ofType: Memo.self, forPrimaryKey: memoNum)
+        titleText.text = myMemo?.title
+        memoText.text = myMemo?.memo
         super.viewDidLoad()
     }
     

@@ -118,11 +118,11 @@
 			children = (
 				3C7C9DAA1F8B895000B7B96D /* AppDelegate.swift */,
 				3C7C9DAC1F8B895000B7B96D /* ViewController.swift */,
+				3C7C9DD81F8B9FBA00B7B96D /* DetailViewController.swift */,
 				3C7C9DAE1F8B895000B7B96D /* Main.storyboard */,
 				3C7C9DB11F8B895000B7B96D /* Assets.xcassets */,
 				3C7C9DB31F8B895000B7B96D /* LaunchScreen.storyboard */,
 				3C7C9DB61F8B895000B7B96D /* Info.plist */,
-				3C7C9DD81F8B9FBA00B7B96D /* DetailViewController.swift */,
 			);
 			path = MyFirstApplication;
 			sourceTree = "<group>";
