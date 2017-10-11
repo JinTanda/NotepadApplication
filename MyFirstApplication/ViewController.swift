@@ -13,18 +13,18 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 
     @IBOutlet weak var tableView: UITableView!
     
-    let program = ["Swift", "Ruby", "Java"]
+    let realm = try! Realm()
     var memoNum: Int = -1
-
+    var memoList: Results<Memo>?
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        memoList = realm.objects(Memo.self)
     }
     
     @IBAction func addMemoButton(_ sender: Any) {
@@ -33,8 +33,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
-//        return memoArray.count
-        return program.count
+        return memoList?.count ?? 0
     }
     
     //セルをタップしたときに呼び出される
@@ -45,7 +44,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
         let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "listCell", for: indexPath)
-        cell.textLabel!.text = program[indexPath.row]
+        cell.textLabel!.text = memoList?[indexPath.row].title
         return cell
     }
 
