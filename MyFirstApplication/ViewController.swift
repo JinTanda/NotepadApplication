@@ -14,12 +14,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var tableView: UITableView!
 
     let realm = try! Realm() // swiftlint:disable:this force_try
-    var memoNum: Int = -1
+    var memoNum: Int?
     var memoList: Results<Memo>?
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        memoNum = nil
     }
 
     override func viewDidLoad() {
@@ -28,7 +29,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
     @IBAction func addMemoButton(_ sender: Any) {
-        self.memoNum = -1
         performSegue(withIdentifier: "toDetail", sender: nil)
     }
 
@@ -38,7 +38,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     //セルをタップしたときに呼び出される
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.memoNum = indexPath.row
+        memoNum = memoList?[indexPath.row].id
         performSegue(withIdentifier: "toDetail", sender: nil)
     }
 
@@ -51,7 +51,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDetail" {
             let subVC = segue.destination as? DetailViewController
-            subVC?.memoNum = self.memoNum
+            if let num = memoNum {
+                subVC?.memoNum = num
+            }
         }
     }
 }

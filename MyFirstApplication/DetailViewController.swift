@@ -21,7 +21,7 @@ class Memo: Object {
 }
 
 class DetailViewController: UIViewController {
-    var memoNum = -1
+    var memoNum: Int?
     let realm = try! Realm() // swiftlint:disable:this force_try
 
     @IBOutlet weak var titleText: UITextField!
@@ -29,27 +29,26 @@ class DetailViewController: UIViewController {
 
     @IBAction func saveButton(_ sender: Any) {
         let myMemo = Memo()
-        myMemo.id = memoNum
-        myMemo.title = titleText.text!
-        myMemo.memo = memoText.text!
-        try! realm.write { // swiftlint:disable:this force_try
-            realm.add(myMemo, update: true)
+        myMemo.id = memoNum ?? Int(Date().timeIntervalSince1970)
+        if let text = titleText.text {
+            myMemo.title = text
+        }
+        myMemo.memo = memoText.text
+        if myMemo.title != "", myMemo.memo != "" {
+            try! realm.write { // swiftlint:disable:this force_try
+                realm.add(myMemo, update: true)
+            }
         }
         //前画面に戻る
-        self.navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 
     override func viewDidLoad() {
-        if memoNum != -1 {
-            let myMemo = realm.object(ofType: Memo.self, forPrimaryKey: memoNum)
+        super.viewDidLoad()
+        if let num = memoNum {
+            let myMemo = realm.object(ofType: Memo.self, forPrimaryKey: num)
             titleText.text = myMemo?.title
             memoText.text = myMemo?.memo
         }
-        super.viewDidLoad()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
 }
