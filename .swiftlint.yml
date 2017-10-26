@@ -1,0 +1,23 @@
+included:
+ - MyFirstApplication
+
+exculded:
+ - Pods
+
+line_length: 200
+
+variable_name:
+ min_length:
+  error: 2
+ excluded:
+  - id
+
+type_body_length:
+ - 200
+ - 400
+
+function_body_length:
+ - 50
+ - 70
+
+reporter: "xcode"

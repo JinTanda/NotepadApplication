@@ -10,42 +10,44 @@ import Foundation
 import UIKit
 import RealmSwift
 
-class Memo: Object{
+class Memo: Object {
     dynamic var id = -1
     dynamic var title = ""
     dynamic var memo = ""
-    
-    override static func primaryKey() -> String?{
+
+    override static func primaryKey() -> String? {
         return "id"
     }
 }
 
-class DetailViewController: UIViewController{
+class DetailViewController: UIViewController {
     var memoNum = -1
-    let realm = try! Realm()
-    
+    let realm = try! Realm() // swiftlint:disable:this force_try
+
     @IBOutlet weak var titleText: UITextField!
     @IBOutlet weak var memoText: UITextView!
-    
+
     @IBAction func saveButton(_ sender: Any) {
         let myMemo = Memo()
         myMemo.id = memoNum
         myMemo.title = titleText.text!
         myMemo.memo = memoText.text!
-        try! realm.write{
+        try! realm.write { // swiftlint:disable:this force_try
             realm.add(myMemo, update: true)
         }
         //前画面に戻る
         self.navigationController?.popViewController(animated: true)
     }
-    
+
     override func viewDidLoad() {
-        let myMemo = realm.object(ofType: Memo.self, forPrimaryKey: memoNum)
-        titleText.text = myMemo?.title
-        memoText.text = myMemo?.memo
+        if memoNum != -1 {
+            let myMemo = realm.object(ofType: Memo.self, forPrimaryKey: memoNum)
+            titleText.text = myMemo?.title
+            memoText.text = myMemo?.memo
+        }
         super.viewDidLoad()
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
